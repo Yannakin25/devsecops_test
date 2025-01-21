@@ -1,13 +1,11 @@
-pipeline {
-	agent none
-	stages {
-		stage("Build & Analyse avec SonarQube") {
-			agent any
-			steps {
-				script {
-					sh 'mvn clean package sonar:sonar'
-				}
-			}
-		}
-	}
+node {
+  stage('SCM') {
+    checkout scm
+  }
+  stage('SonarQube Analysis') {
+    def mvn = tool 'Maven';
+    withSonarQubeEnv() {
+      sh "${mvn}/bin/mvn clean verify sonar:sonar -Dsonar.projectKey=devsecops -Dsonar.projectName='devsecops'"
+    }
+  }
 }
