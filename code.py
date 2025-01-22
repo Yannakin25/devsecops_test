@@ -1,2 +1,2 @@
 print('hello world !')
-print('mod')
+print('wow')
